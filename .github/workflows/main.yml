@@ -4,7 +4,7 @@ on: push
 
 jobs:
     echo-hello:
-        runs-on: self-hosted
+        runs-on: arc-runner-set
         steps:
             - name: Say hello
               run: echo "Hello, World!"
