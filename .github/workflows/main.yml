@@ -1,43 +1,42 @@
-# name: dotnet nopCommerce application
+name: dotnet nopCommerce application
 
-# on:
-#   push:
-#     branches: ["main"]
-#   pull_request:
-#     branches: ["main"]
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
     
-#   workflow_dispatch:
+  workflow_dispatch:
   
-# jobs:
-#   push_to_registry:
-#     name: Push Docker image to Docker Hub
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v2
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
         
-#       - name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
         
-#       - name: Log in to Docker Hub
-#         uses: docker/login-action@v3
-#         with:
-#           username: ${{ secrets.DOCKER_USERNAME }}
-#           password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
           
-#       - name: Build and push Docker image
-#         uses: docker/build-push-action@v5
-#         with:
-#           push: true
-#           tags: sewalal/dotnet:1.0
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: sewalal/dotnet:1.0
 
-#       - name: Load Docker image into Minikube
-#         run: |
-#           minikube image load sewalal/dotnet:1.0
+      - name: Load Docker image into Minikube
+        run: |
+          minikube image load sewalal/dotnet:1.0
 
-#       - name: Deploy to Minikube
-#         run: |
-#           kubectl apply -f k8s/dotnet.yaml
-#           kubectl apply -f k8s/dotnet-svc.yml
-#           kubectl rollout status deployment/
+      - name: Deploy to Minikube
+        run: |
+          kubectl apply -f ./dotnet.yaml
+          kubectl apply -f ./dotnet-svc.yml
 
