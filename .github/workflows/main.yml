@@ -50,7 +50,7 @@ jobs:
 
       - name: Configure kubectl to use existing Minikube
         run: |
-          kubectl config use-context gha-arc
+          kubectl config use-context minikube
       # load docker pushed docker image to local cluster
       - name: Load Docker image into Minikube
         run: |
