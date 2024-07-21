@@ -31,12 +31,41 @@ jobs:
           push: true
           tags: sewalal/dotnet:1.0
 
+      #  # install minikube   
+      # - name: Install Minikube
+      #   run: |
+      #     curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+      #     chmod +x minikube
+      #     sudo mv minikube /usr/local/bin/
+
+      # install kubectl 
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/
+
+      # configure existing minkibe single node cluster 
+      # to get current context: kubectl config current-contex
+
+      - name: Configure kubectl to use existing Minikube
+        run: |
+          kubectl config use-context gha-arc
+      # load docker pushed docker image to local cluster
       - name: Load Docker image into Minikube
         run: |
           minikube image load sewalal/dotnet:1.0
 
-      - name: Deploy to Minikube
+      # deploy to minikube cluster
+      - name: Deploy to moinikube cluster
         run: |
           kubectl apply -f ./dotnet.yaml
           kubectl apply -f ./dotnet-svc.yml
+
+          
+
+          
+          
+        
+
 
